@@ -1,0 +1,55 @@
+@use "@/css/variables" as *;
+
+.card {
+  width: 100%;
+
+  .imageBox {
+    background: url("../../assets/Backgrounds/flour.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top;
+    position: relative;
+    bottom: -50px;
+    display: flex;
+    justify-content: center;
+
+    img {
+      width: auto;
+      height: 200px;
+    }
+  }
+
+  .cardContent {
+    background-color: rgba(7, 7, 7, 0.8);
+    padding: 3rem;
+    border-radius: 40px;
+    box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.9);
+    h3 {
+      color: $color-primary;
+      font-family: $secondary-font;
+      font-size: $h3-size;
+    }
+    .price {
+      color: $yellow;
+      font-family: $secondary-font;
+      font-size: 2rem;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .card {
+    .imageBox {
+      bottom: -35px;
+
+      img {
+        height: 170px;
+      }
+    }
+
+    .cardContent {
+      padding: 2rem 1.25rem;
+      border-radius: 24px;
+    }
+  }
+}

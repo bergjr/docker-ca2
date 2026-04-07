@@ -1,0 +1,37 @@
+/* Colors */
+
+$color-primary: #FFFFFF;
+$color-secondary: #333333; 
+$light-grey: #e1e1e1;
+
+/* Resolved merge conflict: prefer concrete hex color for $red and include $yellow */
+$red: #d21919;
+$yellow: #fdd924;
+
+/* Fonts */
+$primary-font: 'DynaPuff', system-ui;
+$secondary-font: 'Playfair Display', serif;
+$body-font: 'Roboto Flex', sans-serif;
+
+//text color
+$color-secondary: black;
+//Text-sizes
+$h1-size: 4rem;
+$h2-size: 3rem;
+$h3-size: 2rem;
+$p-size: 1.5rem;
+
+//margins and paddings
+
+$standard-padding: 1rem;
+$standard-margin: 1rem;
+
+@mixin size-font($size, $font) {
+    font-family: $font;
+    font-size: $size;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}

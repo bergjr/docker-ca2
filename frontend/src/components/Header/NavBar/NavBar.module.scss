@@ -1,0 +1,122 @@
+@use "@/css/variables" as *;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1200;
+
+  .navInner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .leftSection {
+    display: flex;
+    align-items: center;
+    min-width: 220px;
+  }
+
+  .menuToggle {
+    display: none;
+  }
+
+  .navList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 20px;
+
+    li {
+      a {
+        text-decoration: none;
+        color: $color-primary;
+        font-size: 1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        &:hover {
+          color: $red;
+        }
+      }
+    }
+  }
+
+  .logoWrap {
+    flex-shrink: 0;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 220px;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar {
+    .navInner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      padding: 12px 0 !important;
+    }
+
+    .leftSection {
+      min-width: 0;
+    }
+
+    .menuToggle {
+      display: inline-flex;
+      padding: 6px;
+    }
+
+    .navList {
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.94);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      flex-direction: column;
+      gap: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease;
+
+      li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+        a {
+          display: block;
+          padding: 0.9rem 1rem;
+          font-size: 0.95rem;
+        }
+      }
+    }
+
+    .navListOpen {
+      max-height: 240px;
+    }
+
+    .logoWrap {
+      justify-self: center;
+    }
+
+    .actions {
+      min-width: 0;
+      gap: 0.4rem;
+    }
+  }
+}
+
+:export {
+  yellowButton: $yellow;
+}

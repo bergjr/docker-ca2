@@ -1,0 +1,13 @@
+@use "@/css/variables" as *;
+
+.menuCards {
+  margin-bottom: $standard-margin;
+  font-family: $secondary-font;
+  h2 {
+    font-size: $h2-size;
+    font-weight: 700;
+  }
+  p {
+    font-size: $p-size;
+  }
+}

@@ -1,0 +1,16 @@
+@use "@/css/variables" as *;
+
+.popularDishes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  h2 {
+    font-size: $h2-size;
+    font-weight: 700;
+    font-family: $secondary-font;
+    margin-bottom: 20px;
+  }
+  p {
+    font-size: $p-size;
+  }
+}

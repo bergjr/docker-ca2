@@ -1,0 +1,17 @@
+.search-bar {
+  min-width: 250px;
+
+  .MuiOutlinedInput-root {
+    & .MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 0, 0, 0.7); 
+    }
+
+    &:hover .MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 0, 0, 0.7);
+    }
+
+    &.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: rgba(0, 0, 0, 0.7);
+    }
+  }
+}

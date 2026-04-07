@@ -1,0 +1,58 @@
+@use "@/css/variables" as *;
+
+.footer {
+  position: relative;
+  margin-top: 6rem;
+  bottom: 0;
+  color: #fff;
+  background-color: rgb(0, 0, 0, 0.7);
+  .primaryFont {
+    font-family: $primary-font;
+  }
+
+  .yellow {
+    color: $yellow;
+  }
+  .email {
+    font-size: $h2-size;
+    font-family: $secondary-font;
+    margin-bottom: 10px;
+    word-break: break-word;
+  }
+  .contact-info {
+    font-size: $h3-size;
+    font-family: $primary-font;
+  }
+  .footerLinks {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    li {
+      font-family: $primary-font;
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .footer {
+    margin-top: 3rem;
+
+    .email {
+      font-size: clamp(1.4rem, 6vw, 2.1rem);
+      text-align: left;
+      margin-bottom: 0;
+    }
+
+    .footerLinks {
+      gap: 0.35rem;
+    }
+  }
+}
