@@ -39,10 +39,10 @@ function CartProvider({ children }) {
   function addToCart(newProduct) {
     console.log("Adding to cart:", newProduct);
 
-    // 1. Verificamos se o produto existe usando consistentemente o 'id'
+    // 1. Check whether the product exists, consistently using 'id'
     const productExist = cart.find((product) => product.id === newProduct.id);
     console.log("Product exists in cart:", !!productExist);
-    // Gerenciamento do SnackBar e Modal
+    // Manage snackbar and modal state
     if (snackBarMessage !== "Product added to the cart") {
       setSnackBarMessage("Product added to the cart");
     }
@@ -50,13 +50,13 @@ function CartProvider({ children }) {
     closeModal();
 
     if (!productExist) {
-      // Adiciona novo item ao carrinho
+      // Add a new item to the cart
       setCart((oldCart) => [...oldCart, { ...newProduct, quantity: quantity }]);
     } else {
-      // 2. Atualiza a quantidade de forma IMUTÁVEL
+      // 2. Update quantity in an immutable way
       const updatedCart = cart.map((product) => {
         if (product.id === newProduct.id) {
-          // Criamos um NOVO objeto com a quantidade somada
+          // Create a NEW object with the incremented quantity
           return { ...product, quantity: product.quantity + quantity };
         }
         return product;
@@ -64,7 +64,7 @@ function CartProvider({ children }) {
       setCart(updatedCart);
     }
 
-    // 3. Resetamos a quantidade local após adicionar
+    // 3. Reset local quantity after adding
     setQuantity(1);
   }
 

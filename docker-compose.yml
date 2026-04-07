@@ -1,0 +1,32 @@
+services:
+  # 1. Database (MongoDB)
+  db:
+    image: mongo:latest
+    container_name: mongodb_container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  # 2. Backend (Node.js)
+  backend:
+    build: ./backend
+    container_name: backend_container
+    ports:
+      - "8081:5000" # Accessible on the VM via 8081
+    environment:
+      - MONGO_URI=mongodb://db:27017/projeto_faculdade
+    depends_on:
+      - db
+
+  # 3. Frontend (React + Nginx)
+  frontend:
+    build: ./frontend
+    container_name: frontend_container
+    ports:
+      - "80:3000" # Maps VM port 80 to Nginx port 3000
+    depends_on:
+      - backend
+
+volumes:
+  mongodb_data:
