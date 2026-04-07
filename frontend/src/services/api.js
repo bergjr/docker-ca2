@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/v1'; 
+const API_URL = 'http://20.251.162.242:8081/api/v1';
 
 // Function to get the full menu by name
 export const getFullMenuByName = async (name) => {
