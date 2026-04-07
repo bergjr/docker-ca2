@@ -7,35 +7,14 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { useAuth } from "../../../context/AuthContext/AuthContext";
 import { Link } from "react-router-dom";
 import { useCartContext } from "../../../context/CartContext/useCartContext";
-import MyAccount from "../../MyAccount/MyAccount";
 
 export default function NavBar() {
-  const { user, setLoginDialogOpen, logout } = useAuth();
   const { cart, openCartHandler } = useCartContext();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [accountMenuAnchor, setAccountMenuAnchor] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const modalHandle = () => {
-    setLoginDialogOpen(true);
-  };
-
-  const handleLogout = () => {
-    logout();
-    setAccountMenuAnchor(null);
-  };
-
-  const openAccountMenu = (event) => {
-    setAccountMenuAnchor(event.currentTarget);
-  };
-
-  const closeAccountMenu = () => {
-    setAccountMenuAnchor(null);
-  };
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen((prev) => !prev);
@@ -91,37 +70,17 @@ export default function NavBar() {
           </Box>
 
           <Box className={styles.actions}>
-            {!user ? (
-              <ButtonCustom
-                startIcon={<AccountCircleIcon htmlColor="black" />}
-                variant="contained"
-                backgroundColor={styles.yellowButton}
-                textColor="black"
-                onClick={modalHandle}
-                aria-label="Login"
-              >
-                {isMobile ? "" : "Login"}
-              </ButtonCustom>
-            ) : (
-              <>
-                <ButtonCustom
-                  startIcon={<AccountCircleIcon htmlColor="black" />}
-                  variant="contained"
-                  backgroundColor={styles.yellowButton}
-                  textColor="black"
-                  onClick={openAccountMenu}
-                  aria-label="My account"
-                >
-                  {isMobile ? "" : user.name}
-                </ButtonCustom>
-                <MyAccount
-                  user={user}
-                  open={accountMenuAnchor}
-                  onClose={closeAccountMenu}
-                  onLogout={handleLogout}
-                />
-              </>
-            )}
+            <ButtonCustom
+              component={Link}
+              to="/account"
+              startIcon={<AccountCircleIcon htmlColor="black" />}
+              variant="contained"
+              backgroundColor={styles.yellowButton}
+              textColor="black"
+              aria-label="Account"
+            >
+              {isMobile ? "" : "Account"}
+            </ButtonCustom>
 
             <Badge badgeContent={cart.length} color="error">
               <ButtonCustom

@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { useAuth } from "../../context/AuthContext/AuthContext";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -16,7 +15,6 @@ import { Link } from "react-router-dom";
 import "./AccountDashboard.module.scss";
 
 export default function AccountDashboard() {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const dashboardRef = useRef(null);
 
@@ -51,9 +49,9 @@ export default function AccountDashboard() {
           </IconButton>
           <CardContent>
             <Typography variant="h4" fontWeight="bold">
-              Welcome, {user?.name}
+              Account Dashboard
             </Typography>
-            <Typography>Email: {user?.email}</Typography>
+            <Typography>Browse your recent orders and saved items.</Typography>
             <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
               <Button
                 variant="contained"

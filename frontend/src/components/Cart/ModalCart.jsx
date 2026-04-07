@@ -5,7 +5,6 @@ import AddCircle from "@mui/icons-material/Add";
 import CloseIcon from '@mui/icons-material/Close';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useCartContext } from "../../context/CartContext/useCartContext";
-import { useAuth } from "@/context/AuthContext/AuthContext";
 
 
 /** ModalCart.jsx
@@ -14,7 +13,6 @@ import { useAuth } from "@/context/AuthContext/AuthContext";
 
 const ModalCart = () => {
   const { cart, totalToPay, openCartHandler, updateQuantity, checkout} = useCartContext();
-  const { user } = useAuth();
   
   return (
     <div className={styles.cart} onClick={e => e.stopPropagation()}> {/* Prevents the click event from propagating to the Backdrop, allowing users to interact with the cart without closing it */}
@@ -53,7 +51,7 @@ const ModalCart = () => {
       </ul>
       <div className={styles['box-bottom']}>
         <h2>Total: € {totalToPay.toFixed(2)}</h2>
-        <Button onClick={checkout} color="success" disabled={(cart.length < 1 || !user?.email)} variant="contained">
+        <Button onClick={checkout} color="success" disabled={cart.length < 1} variant="contained">
           Checkout
         </Button>
       </div>
