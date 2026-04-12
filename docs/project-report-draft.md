@@ -98,3 +98,103 @@ Security was an important design factor because the solution exposes web service
 4. The backend accessed the database through an environment variable rather than hard-coding the connection details in the source logic.
 5. Input validation is present in parts of the backend, for example when processing contact messages.
 
+## 4. Implementation Summary
+
+### 4.1 Building the Private Cloud Components
+
+The first implementation phase focused on preparing the private cloud environment. This included provisioning the required virtual infrastructure, configuring the operating environment, enabling network connectivity, and preparing the host for container deployment.
+
+1. A virtual machine was provisioned on Microsoft Azure with a suitable Linux distribution.
+2. The VM was configured with enough CPU, RAM, and storage to support the application.
+3. Docker was installed and configured on the VM to enable container deployment.
+
+![alt text](./images/azure_vm.png)
+
+### 4.2 Building and Deploying the Application
+
+The second implementation phase focused on containerising and deploying the application.
+
+The backend container was built from [backend/Dockerfile](backend/Dockerfile). It uses the `node:20-alpine` base image, sets the working directory to `/app`, installs production dependencies, copies the application source, exposes port 5000, and starts the server with `node server.js`.
+
+The frontend container was built from [frontend/Dockerfile](frontend/Dockerfile). It uses a multi-stage build. In the first stage, the React application is built using `node:18-alpine`. In the second stage, the compiled assets are copied into an `nginx:stable-alpine` image and served through a custom Nginx configuration on port 3000.
+
+The services were orchestrated using [docker-compose.yml](docker-compose.yml), which defines:
+
+1. A `db` service based on the `mongo:latest` image.
+2. A `backend` service built from the backend folder.
+![alt text](./images/image_be.png)
+3. A `frontend` service built from the frontend folder.
+![alt text](./images/image_fe.png)
+4. A named volume called `mongodb_data` for persistent database storage (This is being defined in [docker-compose.yml](docker-compose.yml)).
+
+The deployment steps are:
+
+1. Clone or copy the project files to your VM.
+2. Navigate to the project root.
+3. Run the Docker Compose startup command.
+![alt text](./images/compose.png)
+4. Check if the services are running by accessing the frontend in a browser and testing backend endpoints.
+
+### 4.3 Challenges Faced and Solutions Implemented
+
+1. Service connectivity between containers.
+   Solution: Docker Compose networking was used so the backend could connect to MongoDB by the internal service name `db`.
+
+2. Persisting database data across container recreation.
+   Solution: A named volume called `mongodb_data` was configured in [docker-compose.yml](docker-compose.yml).
+
+3. Exposing the correct ports to external users.
+   Solution: Docker Compose publishes the frontend on port 80 and backend on port 8081.
+
+## 5. Containerisation Strategy
+
+The containerisation strategy for this project was based on splitting the application into independent service containers, each with a clear responsibility.
+
+The selected deployment model was a multi-container model using Docker Compose. This was appropriate because the application is not a single-process system. It includes a database service, an API layer, and a presentation layer.
+
+The strategy included the following design choices:
+
+1. Separate containers for frontend, backend, and database.
+2. Use of Alpine-based images to reduce image size.
+
+4. Use of a named Docker volume for persistent database storage.
+5. Use of environment variables to connect the backend to MongoDB.
+6. Use of Docker Compose to manage service startup order and network connectivity.
+
+This model supports portability because the same definitions can be used across different Docker-capable hosts. It also improves maintainability because each service can be rebuilt or updated independently. If required in the future, the design could be extended to support container registries, CI/CD pipelines, or orchestrators such as Kubernetes.
+
+## 6. Application Overview
+
+The application implemented in this repository is a restaurant-oriented web platform.
+
+The frontend is a React application configured through [frontend/src/routes.jsx](frontend/src/routes.jsx). It includes routes for the home page, menu page, about page, and account dashboard. The frontend consumes backend API data and presents menu content to users.
+
+The backend is an Express application initialised in [backend/server.js](backend/server.js). It connects to MongoDB through [backend/src/config/db.js](backend/src/config/db.js) and exposes routes for:
+
+1. Menus through [backend/src/routes/menuRoutes.js](backend/src/routes/menuRoutes.js)
+2. Products through [backend/src/routes/productRoutes.js](backend/src/routes/productRoutes.js)
+3. Messages through [backend/src/routes/messageRoutes.js](backend/src/routes/messageRoutes.js)
+
+The data model includes:
+
+1. Products, defined in [backend/src/models/Product.js](backend/src/models/Product.js)
+2. Menus, defined in [backend/src/models/Menu.js](backend/src/models/Menu.js)
+3. Messages, defined in [backend/src/models/Message.js](backend/src/models/Message.js)
+
+## 7. Conclusion
+
+This project demonstrated how private cloud planning and application containerisation can be combined into a practical deployment workflow. The final solution delivered a multi-tier web application running as coordinated containers with persistent database storage and a structured deployment model.
+
+## 9. Supporting Files Submitted
+
+The supporting submission should include the source repository link and a compressed archive containing relevant implementation artefacts.
+
+The core artefacts from this repository include:
+
+1. [docker-compose.yml](docker-compose.yml)
+2. [backend/Dockerfile](backend/Dockerfile)
+3. [frontend/Dockerfile](frontend/Dockerfile)
+4. [backend/server.js](backend/server.js)
+5. [backend/src/config/db.js](backend/src/config/db.js)
+6. Backend routes, controllers, services, and models under the backend `src` folder
+7. Frontend source code under the frontend `src` folder
