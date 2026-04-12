@@ -65,3 +65,36 @@ React with Vite was used for the frontend because it supports component-based de
 
 Microsoft Azure was selected as the cloud platform for this project because it provided a straightforward way to provision and manage the virtual machine used to host the containerised application.
 
+### 3.3 Proposed Architecture
+
+The application follows a three-tier architecture deployed as separate services:
+
+1. The frontend container serves the React application through Nginx on port 3000 inside the container and is published externally on port 80.
+2. The backend container runs the Express API on port 5000 inside the container and is published externally on port 8081.
+3. The MongoDB container provides persistent data storage on port 27017 and uses a named volume for database persistence.
+
+The Compose configuration in [docker-compose.yml](docker-compose.yml) defines the service relationships. The backend depends on the database service and uses the internal hostname `db` through the connection string `mongodb://db:27017/projeto_faculdade`. The frontend depends on the backend and communicates with it through the published backend API endpoint.
+
+Architectural diagram for the application layer:
+
+![alt text](./images/app_architecture.png)
+
+
+### 3.4 Resource Plan
+
+The resource plan should reflect the capacity needed to run the private cloud platform and the application stack. A suitable plan for this project would include:
+
+1. Compute: enough vCPU and RAM to run the host environment plus the three containers.
+2. Storage: operating system storage plus persistent database storage.
+3. Network: internal communication between services and controlled external access to the application.
+
+### 3.5 Security Considerations
+
+Security was an important design factor because the solution exposes web services and stores user-submitted data. The following considerations applied to the project:
+
+1. Service isolation through containers reduced direct dependency conflicts between components.
+2. MongoDB persistence was isolated into a named volume rather than stored inside ephemeral containers.
+3. Only required ports were published externally through Docker Compose.
+4. The backend accessed the database through an environment variable rather than hard-coding the connection details in the source logic.
+5. Input validation is present in parts of the backend, for example when processing contact messages.
+
